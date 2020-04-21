@@ -1,0 +1,12 @@
+created view controller in storyboard, including tableView, TVcell, labels in cell, add|bookmark|person button; created another view controller, add image, name, date and time, location, description, and three icons; created segue and files EventsListViewController and EventDetailViewController, and EventTableViewCell
+created Event with variables, and init
+created Events with an array of Event
+created events variable
+created tableView delegate and dateaSource in ELVC, and extension
+append three new event to test in EventsListViewController
+went back to Event, created a convenience init() and init one under viewDidLoad() in EventDetailViewController, created IBOutlet and IBAction
+copy paste the cancelButtonPressed function from Snacktacular
+set up text of different IBOutlet to event attributes
+rename podfile from "Snacktacular" to "Eventsletter", open terminal, type in "cd" and drag folder name, type in "pod install" to install pod (pod include google and firebase)
+open project in the xc file
+import Firebase in AppDelegate, paste configuration, copy client ID in googleService-info to info URL in Eventsletter
