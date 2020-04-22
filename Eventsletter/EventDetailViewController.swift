@@ -34,6 +34,8 @@ class EventDetailViewController: UIViewController {
         descriptionTextView.text = event.description
         
     }
+    
+    
     @IBAction func lookupLocationButtonPressed(_ sender: UIButton) {
     }
     @IBAction func likeButtonPressed(_ sender: UIButton) {

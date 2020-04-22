@@ -6,7 +6,10 @@ created tableView delegate and dateaSource in ELVC, and extension
 append three new event to test in EventsListViewController
 went back to Event, created a convenience init() and init one under viewDidLoad() in EventDetailViewController, created IBOutlet and IBAction
 copy paste the cancelButtonPressed function from Snacktacular
-set up text of different IBOutlet to event attributes
+set up text of different IBOutlet to event attributes, write prepare segue
 rename podfile from "Snacktacular" to "Eventsletter", open terminal, type in "cd" and drag folder name, type in "pod install" to install pod (pod include google and firebase)
 open project in the xc file
 import Firebase in AppDelegate, paste configuration, copy client ID in googleService-info to info URL in Eventsletter
+import firebase, firebaseUI, googleSignIn, copy firebasesignin code to viewdidload, create auth and delegate, create extension, copy code from firebase, print user email. (EventsListViewController)
+write signin function, copy code from firebase, create viewDidAppear()
+
