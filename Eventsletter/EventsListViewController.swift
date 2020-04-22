@@ -31,9 +31,12 @@ class EventsListViewController: UIViewController {
         listTableView.isHidden = true
         
         events = Events()
-        events.eventsArray.append(Event(name: "Example1", address: "Address1", addressName: "", coordinate: CLLocationCoordinate2D(), date: "Date1", time: "Time1", description: "Description1", numberOfLikes: 0, postingUserID: "", documentID: ""))
-        events.eventsArray.append(Event(name: "Example2", address: "Address2", addressName: "", coordinate: CLLocationCoordinate2D(), date: "Date2", time: "Time2", description: "Description2", numberOfLikes: 0, postingUserID: "", documentID: ""))
-        events.eventsArray.append(Event(name: "Example3", address: "Address3", addressName: "", coordinate: CLLocationCoordinate2D(), date: "Date3", time: "Time3", description: "Description3", numberOfLikes: 0, postingUserID: "", documentID: ""))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        events.loadData {
+            self.listTableView.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,9 +94,7 @@ extension EventsListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EventTableViewCell
-        cell.nameLabel.text = events.eventsArray[indexPath.row].name
-//        cell.dateLabel.text = "\(events.eventsArray[indexPath.row].date)"
-//        cell.addressLabel.text = events.eventsArray[indexPath.row].address
+        cell.configureCell(event: events.eventsArray[indexPath.row])
         return cell
     }
     

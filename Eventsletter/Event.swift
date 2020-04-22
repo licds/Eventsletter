@@ -54,6 +54,21 @@ class Event {
         self.init(name: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: "", time: "", description: "", numberOfLikes: 0, postingUserID: "", documentID: "")
     }
     
+    convenience init(dictionary: [String: Any]) {
+        let name = dictionary["name"] as! String? ?? ""
+        let addressName = dictionary["addressName"] as! String? ?? ""
+        let address = dictionary["address"] as! String? ?? ""
+        let longitude = dictionary["longitude"] as! CLLocationDegrees? ?? 0.0
+        let latitude = dictionary["latitude"] as! CLLocationDegrees? ?? 0.0
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let date = dictionary["date"] as! String? ?? ""
+        let time = dictionary["time"] as! String? ?? ""
+        let description = dictionary["description"] as! String? ?? ""
+        let numberOfLikes = dictionary["numberOfLikes"] as! Int? ?? 0
+        let postingUserID = dictionary["postingUserID"] as! String? ?? ""
+        self.init(name: name, address: address, addressName: addressName, coordinate: coordinate, date: date, time: time, description: description, numberOfLikes: numberOfLikes, postingUserID: postingUserID, documentID: "")
+    }
+    
     func saveData(completed: @escaping (Bool) -> ()) {
         let db = Firestore.firestore()
         //Grab postingUserID

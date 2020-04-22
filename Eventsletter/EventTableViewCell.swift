@@ -7,9 +7,18 @@
 //
 
 import UIKit
-
+import CoreLocation
 class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
+    
+    var event: Event!
+    
+    func configureCell(event: Event!){
+        nameLabel.text = event.name
+        addressLabel.text = event.addressName
+        timeLabel.text = "\(event.date)   \(event.time)"
+    }
+    
 }

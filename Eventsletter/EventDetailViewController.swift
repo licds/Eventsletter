@@ -61,6 +61,11 @@ class EventDetailViewController: UIViewController {
     @IBAction func deleteButtonPressed(_ sender: UIButton) {
     }
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        event.name = nameTextView.text!
+        event.date = dateTextField.text!
+        event.time = timeTextField.text!
+        event.description = descriptionTextView.text!
+        event.address = addressTextField.text!
         event.saveData { success in
             if success {
                 self.leaveViewController()
