@@ -12,6 +12,7 @@ import CoreLocation
 class Event {
     var name: String
     var address: String
+    var addressName: String
     var coordinate: CLLocationCoordinate2D
     var date: String //Date
     var time: String
@@ -22,9 +23,10 @@ class Event {
     var documentID: String
 //    var eventType: String
     
-    init(name: String, address: String, coordinate: CLLocationCoordinate2D, date: String, time: String, description: String, numberOfLikes: Int, postingUserID: String, documentID: String) {
+    init(name: String, address: String, addressName: String, coordinate: CLLocationCoordinate2D, date: String, time: String, description: String, numberOfLikes: Int, postingUserID: String, documentID: String) {
         self.name = name
         self.address = address
+        self.addressName = addressName
         self.coordinate = coordinate
         self.date = date
         self.time = time
@@ -36,6 +38,6 @@ class Event {
     }
     
     convenience init() {
-        self.init(name: "", address: "", coordinate: CLLocationCoordinate2D(), date: "", time: "", description: "", numberOfLikes: 0, postingUserID: "", documentID: "")
+        self.init(name: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: "", time: "", description: "", numberOfLikes: 0, postingUserID: "", documentID: "")
     }
 }

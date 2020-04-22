@@ -12,4 +12,4 @@ open project in the xc file
 import Firebase in AppDelegate, paste configuration, copy client ID in googleService-info to info URL in Eventsletter
 import firebase, firebaseUI, googleSignIn, copy firebasesignin code to viewdidload, create auth and delegate, create extension, copy code from firebase, print user email. (EventsListViewController)
 write signin function, copy code from firebase, create viewDidAppear()
-
+create logo and app icon, upload and use 
