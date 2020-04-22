@@ -28,6 +28,8 @@ class EventsListViewController: UIViewController {
         
         listTableView.delegate = self
         listTableView.dataSource = self
+        listTableView.isHidden = true
+        
         events = Events()
         events.eventsArray.append(Event(name: "Example1", address: "Address1", coordinate: CLLocationCoordinate2D(), date: "Date1", time: "Time1", description: "Description1", numberOfLikes: 0, postingUserID: "", documentID: ""))
         events.eventsArray.append(Event(name: "Example2", address: "Address2", coordinate: CLLocationCoordinate2D(), date: "Date2", time: "Time2", description: "Description2", numberOfLikes: 0, postingUserID: "", documentID: ""))
@@ -44,11 +46,29 @@ class EventsListViewController: UIViewController {
             FUIGoogleAuth(),
         ]
         if authUI.auth?.currentUser == nil {
+            listTableView.isHidden = true
             self.authUI.providers = providers
-            let authviewController = authUI.authViewController()
-            authviewController.modalPresentationStyle = .fullScreen
-            self.present(authviewController, animated: true, completion: nil)
+            let authViewController = authUI.authViewController()
+            authViewController.modalPresentationStyle = .fullScreen
+            self.present(authViewController, animated: true, completion: nil)
+        } else {
+            listTableView.isHidden = false
         }
+    }
+    
+    func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
+        let loginViewController = FUIAuthPickerViewController(authUI: authUI)
+        
+        let marginInsets: CGFloat = 16
+        let imageHeight: CGFloat = 225
+        let imageY = self.view.center.y - imageHeight
+        let logoFrame = CGRect(x: self.view.frame.origin.x + marginInsets, y: imageY, width: self.view.frame.width - (marginInsets*2), height: imageHeight)
+        let logoImageView = UIImageView(frame: logoFrame)
+        logoImageView.image = UIImage(named: "logo")
+        logoImageView.contentMode = .scaleAspectFit
+        loginViewController.view.addSubview(logoImageView)
+        
+        return loginViewController
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -96,6 +116,7 @@ extension EventsListViewController: FUIAuthDelegate {
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if let user = user {
+            listTableView.isHidden = false
             print("*** We signed in with the user \(user.email ?? "unknown e-mail")")
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="q45-1D-bEi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fhl-LM-qJI">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -353,7 +353,7 @@
                                 <state key="normal" title="Sign Out"/>
                                 <connections>
                                     <action selector="signOutButtonPressed:" destination="MrS-MQ-BLi" eventType="touchUpInside" id="DSX-KE-2zA"/>
-                                    <segue destination="RZh-YH-OTw" kind="presentation" modalPresentationStyle="fullScreen" id="gLX-Zn-Fdg"/>
+                                    <segue destination="fhl-LM-qJI" kind="presentation" identifier="SignOut" modalPresentationStyle="fullScreen" id="b95-9F-ogN"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -378,7 +378,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z04-tb-V2Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-364" y="688"/>
+            <point key="canvasLocation" x="938" y="950"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qIQ-wQ-1hl">
@@ -397,33 +397,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qc3-r8-1Kb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3782.608695652174" y="-348.21428571428572"/>
-        </scene>
-        <!--Sign In View Controller-->
-        <scene sceneID="cnh-Ee-n7G">
-            <objects>
-                <viewController id="RZh-YH-OTw" customClass="SignInViewController" customModule="Eventsletter" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5tM-8S-yUJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VvG-Bl-KEK">
-                                <rect key="frame" x="184" y="433" width="47" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sign In"/>
-                                <connections>
-                                    <action selector="signInButtonPressed:" destination="RZh-YH-OTw" eventType="touchUpInside" id="b0t-PB-8Iz"/>
-                                    <segue destination="fhl-LM-qJI" kind="presentation" identifier="SignIn" modalPresentationStyle="fullScreen" id="UwL-EE-lHY"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="2gC-7e-82e"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="AJH-qh-ZHw"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VLR-QZ-31q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="789.85507246376812" y="-202.23214285714286"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MfA-Vl-HnP">
@@ -461,28 +434,9 @@
             </objects>
             <point key="canvasLocation" x="1963.7681159420292" y="919.41964285714278"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="NLL-Mz-05n">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q45-1D-bEi" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BYI-0r-zOF">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="RZh-YH-OTw" kind="relationship" relationship="rootViewController" id="zK7-jO-O7N"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="60d-F8-NUa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-120.28985507246378" y="-202.23214285714286"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="UwL-EE-lHY"/>
-        <segue reference="gLX-Zn-Fdg"/>
+        <segue reference="b95-9F-ogN"/>
         <segue reference="CtE-NF-252"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
