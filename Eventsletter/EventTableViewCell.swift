@@ -17,7 +17,11 @@ class EventTableViewCell: UITableViewCell {
     
     func configureCell(event: Event!){
         nameLabel.text = event.name
-        addressLabel.text = event.addressName
+        if event.addressName == "" {
+            addressLabel.text = event.address
+        } else {
+            addressLabel.text = event.addressName
+        }
         timeLabel.text = "\(event.date)   \(event.time)"
     }
     

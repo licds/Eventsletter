@@ -21,21 +21,23 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var descriptionTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewInScrollViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var mapView: MKMapView!
     
     var event: Event!
+    var regionDistance: CLLocationDistance = 750 // 750 meters
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        mapView.delegate = self
+        
         if event == nil {
             event = Event()
         }
-        nameTextView.text = event.name
-        dateTextField.text = event.date
-        timeTextField.text = event.time
-        addressTextField.text = event.address
-        descriptionTextView.text = event.description
         
+        let region = MKCoordinateRegion(center: event.coordinate, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+        mapView.setRegion(region, animated: true)
+        updateUserInterface()
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,8 +86,18 @@ class EventDetailViewController: UIViewController {
     }
     
     func updateUserInterface() {
+        nameTextView.text = event.name
+        dateTextField.text = event.date
+        timeTextField.text = event.time
         addressTextField.text = event.address
-        
+        descriptionTextView.text = event.eventDescription
+        updateMap()
+    }
+    
+    func updateMap() {
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.addAnnotation(event)
+        mapView.setCenter(event.coordinate, animated: true)
     }
     
     func leaveViewController() {
@@ -111,7 +123,7 @@ class EventDetailViewController: UIViewController {
         event.name = nameTextView.text!
         event.date = dateTextField.text!
         event.time = timeTextField.text!
-        event.description = descriptionTextView.text!
+        event.eventDescription = descriptionTextView.text!
         event.address = addressTextField.text!
         event.saveData { success in
             if success {

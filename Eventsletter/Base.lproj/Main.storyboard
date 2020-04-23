@@ -233,6 +233,7 @@
                         <outlet property="descriptionTextViewHeightConstraint" destination="L9K-7T-x71" id="jCF-0p-k9B"/>
                         <outlet property="eventImageView" destination="dF4-iJ-Kac" id="kRZ-xa-oUI"/>
                         <outlet property="likeButton" destination="yv1-YA-Jwp" id="Gbc-X3-j9q"/>
+                        <outlet property="mapView" destination="7ww-cD-cTU" id="gs9-oz-Ovt"/>
                         <outlet property="nameTextView" destination="OlA-x0-Wxh" id="Lfx-VV-4uK"/>
                         <outlet property="thumbImageView" destination="Sbv-5r-9oT" id="Oi2-iR-q7N"/>
                         <outlet property="timeTextField" destination="le4-Ps-7ud" id="fJp-00-9is"/>
@@ -487,7 +488,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="b95-9F-ogN"/>
-        <segue reference="CtE-NF-252"/>
+        <segue reference="aA6-Qy-x2k"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>

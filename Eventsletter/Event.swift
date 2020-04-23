@@ -9,15 +9,16 @@
 import Foundation
 import CoreLocation
 import Firebase
+import MapKit
 
-class Event {
+class Event: NSObject, MKAnnotation {
     var name: String
     var address: String
     var addressName: String
     var coordinate: CLLocationCoordinate2D
     var date: String //Date
     var time: String
-    var description: String
+    var eventDescription: String
 //    var reminderSet: Bool
     var numberOfLikes: Int
     var postingUserID: String
@@ -32,26 +33,34 @@ class Event {
         return coordinate.latitude
     }
     
-    var dictionary: [String: Any] {
-        return ["name": name, "addressName": addressName, "address": address, "longitude": longitude, "latitude": latitude, "date": date, "time": time, "description": description, "numberOfLikes": numberOfLikes, "postingUserID": postingUserID]
+    var title: String? {
+        return addressName
     }
     
-    init(name: String, address: String, addressName: String, coordinate: CLLocationCoordinate2D, date: String, time: String, description: String, numberOfLikes: Int, postingUserID: String, documentID: String) {
+    var subtitle: String? {
+        return address
+    }
+    
+    var dictionary: [String: Any] {
+        return ["name": name, "addressName": addressName, "address": address, "longitude": longitude, "latitude": latitude, "date": date, "time": time, "eventDescription": eventDescription, "numberOfLikes": numberOfLikes, "postingUserID": postingUserID]
+    }
+    
+    init(name: String, address: String, addressName: String, coordinate: CLLocationCoordinate2D, date: String, time: String, eventDescription: String, numberOfLikes: Int, postingUserID: String, documentID: String) {
         self.name = name
         self.address = address
         self.addressName = addressName
         self.coordinate = coordinate
         self.date = date
         self.time = time
-        self.description = description
+        self.eventDescription = eventDescription
 //        self.reminderSet = reminderSet
         self.numberOfLikes = numberOfLikes
         self.postingUserID = postingUserID
         self.documentID = documentID
     }
     
-    convenience init() {
-        self.init(name: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: "", time: "", description: "", numberOfLikes: 0, postingUserID: "", documentID: "")
+    convenience override init() {
+        self.init(name: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: "", time: "", eventDescription: "", numberOfLikes: 0, postingUserID: "", documentID: "")
     }
     
     convenience init(dictionary: [String: Any]) {
@@ -63,10 +72,10 @@ class Event {
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let date = dictionary["date"] as! String? ?? ""
         let time = dictionary["time"] as! String? ?? ""
-        let description = dictionary["description"] as! String? ?? ""
+        let eventDescription = dictionary["eventDescription"] as! String? ?? ""
         let numberOfLikes = dictionary["numberOfLikes"] as! Int? ?? 0
         let postingUserID = dictionary["postingUserID"] as! String? ?? ""
-        self.init(name: name, address: address, addressName: addressName, coordinate: coordinate, date: date, time: time, description: description, numberOfLikes: numberOfLikes, postingUserID: postingUserID, documentID: "")
+        self.init(name: name, address: address, addressName: addressName, coordinate: coordinate, date: date, time: time, eventDescription: eventDescription, numberOfLikes: numberOfLikes, postingUserID: postingUserID, documentID: "")
     }
     
     func saveData(completed: @escaping (Bool) -> ()) {
