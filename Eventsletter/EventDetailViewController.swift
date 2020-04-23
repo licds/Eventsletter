@@ -19,6 +19,8 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var descriptionTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewInScrollViewHeightConstraint: NSLayoutConstraint!
     
     var event: Event!
     
@@ -34,6 +36,51 @@ class EventDetailViewController: UIViewController {
         addressTextField.text = event.address
         descriptionTextView.text = event.description
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateTextFont(textView: nameTextView)
+        descriptionTextViewHeightConstraint.constant = self.descriptionTextView.contentSize.height
+        viewInScrollViewHeightConstraint.constant = eventImageView.frame.size.height + descriptionTextViewHeightConstraint.constant + 368 + 150
+    }
+    
+    func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
+        return CGRect(x: x, y: y, width: width, height: height)
+    }
+    
+    func CGPointMake(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
+        return CGPoint(x: x, y: y)
+    }
+    
+    func CGSizeMake(_ width: CGFloat, _ height: CGFloat) -> CGSize {
+        return CGSize(width: width, height: height)
+    }
+    
+    func updateTextFont(textView: UITextView) {
+        let size = CGSize.zero
+        if (textView.text.isEmpty || textView.bounds.size.equalTo(size)) {
+            return;
+        }
+
+        let textViewSize = textView.frame.size;
+        let fixedWidth = textViewSize.width;
+        let expectSize = textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat(MAXFLOAT)));
+
+        var expectFont = textView.font;
+        if (expectSize.height > textViewSize.height) {
+            while (textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat(MAXFLOAT))).height > textViewSize.height) {
+                expectFont = textView.font!.withSize(textView.font!.pointSize - 1)
+                textView.font = expectFont
+            }
+        }
+        else {
+            while (textView.sizeThatFits(CGSizeMake(fixedWidth, CGFloat(MAXFLOAT))).height < textViewSize.height) {
+                expectFont = textView.font;
+                textView.font = textView.font!.withSize(textView.font!.pointSize + 1)
+            }
+            textView.font = expectFont;
+        }
     }
     
     func updateUserInterface() {
