@@ -45,7 +45,7 @@
                                                 </constraints>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="29"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                             </textView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Om-0o-BvC">
                                                 <rect key="frame" x="78" y="442" width="320" height="38"/>
@@ -56,7 +56,7 @@
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                             </textView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tray" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dF4-iJ-Kac">
                                                 <rect key="frame" x="0.0" y="1.5" width="414" height="170.5"/>
@@ -65,30 +65,34 @@
                                                     <constraint firstAttribute="width" secondItem="dF4-iJ-Kac" secondAttribute="height" multiplier="69:29" id="sNc-2z-yxV"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="December 32, 2020" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mn9-sO-54l">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="December 32, 2020" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mn9-sO-54l">
                                                 <rect key="frame" x="78" y="282" width="320" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="yqe-nR-UOh"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="18:00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="le4-Ps-7ud">
-                                                <rect key="frame" x="111.5" y="320" width="286.5" height="38"/>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="18:00" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="le4-Ps-7ud">
+                                                <rect key="frame" x="118.5" y="320" width="279.5" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="7yx-ol-mrh"/>
                                                 </constraints>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Happy Holiday Hotel" borderStyle="roundedRect" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="w2X-2z-iCZ">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Happy Holiday Hotel" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="w2X-2z-iCZ">
                                                 <rect key="frame" x="78" y="366" width="320" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="BwN-eE-myH"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                <connections>
+                                                    <action selector="addressTextFieldEditingChanged:" destination="eYr-79-yMF" eventType="editingChanged" id="wbz-El-Ca9"/>
+                                                    <action selector="addressTextFieldReturnPressed:" destination="eYr-79-yMF" eventType="primaryActionTriggered" id="b4U-2c-hUq"/>
+                                                </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yv1-YA-Jwp">
                                                 <rect key="frame" x="192" y="488" width="30" height="30"/>
@@ -140,8 +144,8 @@
                                                     <constraint firstAttribute="height" id="jmz-CU-1YM"/>
                                                 </constraints>
                                             </mapView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0aB-Pr-7nO">
-                                                <rect key="frame" x="78" y="320" width="33.5" height="38"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0aB-Pr-7nO">
+                                                <rect key="frame" x="78" y="320" width="40.5" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="ti7-LB-1SA"/>
                                                 </constraints>
@@ -254,15 +258,18 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addressTextField" destination="w2X-2z-iCZ" id="ObZ-Wn-5bk"/>
+                        <outlet property="cancelButton" destination="gQv-7b-DAP" id="57t-74-hxY"/>
                         <outlet property="dateTextField" destination="mn9-sO-54l" id="EeC-lM-AoK"/>
                         <outlet property="descriptionTextView" destination="4Om-0o-BvC" id="Uwm-I4-Ash"/>
                         <outlet property="descriptionTextViewHeightConstraint" destination="L9K-7T-x71" id="jCF-0p-k9B"/>
                         <outlet property="eventImageView" destination="dF4-iJ-Kac" id="kRZ-xa-oUI"/>
                         <outlet property="flagHeightConstraint" destination="GAp-Xw-GbY" id="NwZ-md-Apq"/>
                         <outlet property="likeButton" destination="yv1-YA-Jwp" id="Gbc-X3-j9q"/>
+                        <outlet property="lookupButton" destination="pO0-yp-nag" id="yfo-J1-tRO"/>
                         <outlet property="mapView" destination="7ww-cD-cTU" id="gs9-oz-Ovt"/>
                         <outlet property="mapViewHeightConstraint" destination="jmz-CU-1YM" id="9L5-O2-Fcd"/>
                         <outlet property="nameTextView" destination="OlA-x0-Wxh" id="Lfx-VV-4uK"/>
+                        <outlet property="saveButton" destination="u9D-hi-AOt" id="5wN-Tt-Wgn"/>
                         <outlet property="showMapButton" destination="DNm-DW-3fD" id="YBK-h1-30n"/>
                         <outlet property="startTimeTextField" destination="le4-Ps-7ud" id="fJp-00-9is"/>
                         <outlet property="thumbImageView" destination="Sbv-5r-9oT" id="Oi2-iR-q7N"/>
@@ -281,6 +288,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tMC-KK-xK9">
+                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="M0T-cu-uLJ"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem title="Events" image="bookmark.fill" catalog="system" id="jGU-4b-4kY">
+                                        <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5ys-Ih-w3n"/>
+                                    <barButtonItem title="Club" image="person.3" catalog="system" id="ns4-MS-e32">
+                                        <connections>
+                                            <segue destination="mhC-5b-mGy" kind="presentation" identifier="ShowClubFromEvents" animates="NO" modalPresentationStyle="fullScreen" id="ZNm-Rj-mfz"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Dsh-jU-YfM"/>
+                                    <barButtonItem title="My" image="person" catalog="system" id="INn-F1-LmQ">
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <segue destination="FPg-0O-5fj" kind="presentation" identifier="ShowMyFromEvents" animates="NO" modalPresentationStyle="fullScreen" id="h7r-7Q-kbO"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                                <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3Qi-O1-Nz7">
                                 <rect key="frame" x="0.0" y="88" width="414" height="730"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -341,31 +373,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tMC-KK-xK9">
-                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="M0T-cu-uLJ"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem title="Events" image="bookmark.fill" catalog="system" id="jGU-4b-4kY">
-                                        <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5ys-Ih-w3n"/>
-                                    <barButtonItem title="Club" image="person.3" catalog="system" id="ns4-MS-e32">
-                                        <connections>
-                                            <segue destination="mhC-5b-mGy" kind="presentation" identifier="ShowClubFromEvents" animates="NO" modalPresentationStyle="fullScreen" id="ZNm-Rj-mfz"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Dsh-jU-YfM"/>
-                                    <barButtonItem title="My" image="person" catalog="system" id="INn-F1-LmQ">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <segue destination="FPg-0O-5fj" kind="presentation" identifier="ShowMyFromEvents" animates="NO" modalPresentationStyle="fullScreen" id="h7r-7Q-kbO"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                                <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -511,9 +518,8 @@
                                 </items>
                                 <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </toolbar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sUI-Pi-rbR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sUI-Pi-rbR">
                                 <rect key="frame" x="0.0" y="88" width="414" height="730"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="80" id="7vW-bV-eZ8" customClass="ClubTableViewCell" customModule="Eventsletter" customModuleProvider="target">
@@ -567,7 +573,7 @@
                                             <outlet property="addressLabel" destination="HDK-F0-uct" id="s0R-ir-RZa"/>
                                             <outlet property="nameLabel" destination="sls-ur-dhI" id="3Mm-nU-Wf9"/>
                                             <outlet property="timeLabel" destination="kyX-yb-rFT" id="FdF-6e-5H3"/>
-                                            <segue destination="Yda-g6-LI9" kind="show" identifier="ShowClubMeeting" id="cob-JJ-Xyb"/>
+                                            <segue destination="Yda-g6-LI9" kind="presentation" identifier="ShowClubMeeting" id="cob-JJ-Xyb"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -576,8 +582,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="cuh-pz-p83" firstAttribute="trailing" secondItem="Sjn-Qu-XYc" secondAttribute="trailing" id="0Es-kh-ZFT"/>
+                            <constraint firstItem="sUI-Pi-rbR" firstAttribute="leading" secondItem="Sjn-Qu-XYc" secondAttribute="leading" id="1LG-kO-SJa"/>
+                            <constraint firstItem="sUI-Pi-rbR" firstAttribute="top" secondItem="Sjn-Qu-XYc" secondAttribute="top" id="6RC-Hc-sOX"/>
                             <constraint firstItem="cuh-pz-p83" firstAttribute="leading" secondItem="Sjn-Qu-XYc" secondAttribute="leading" id="TIy-W6-Sd8"/>
+                            <constraint firstItem="cuh-pz-p83" firstAttribute="top" secondItem="sUI-Pi-rbR" secondAttribute="bottom" id="Xfu-Ib-U2j"/>
+                            <constraint firstItem="cuh-pz-p83" firstAttribute="top" secondItem="sUI-Pi-rbR" secondAttribute="bottom" id="eL5-AE-PyB"/>
                             <constraint firstItem="cuh-pz-p83" firstAttribute="bottom" secondItem="Sjn-Qu-XYc" secondAttribute="bottom" id="mc4-7P-Ybj"/>
+                            <constraint firstItem="sUI-Pi-rbR" firstAttribute="trailing" secondItem="Sjn-Qu-XYc" secondAttribute="trailing" id="pXZ-QJ-o6f"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Sjn-Qu-XYc"/>
                     </view>
@@ -601,11 +612,11 @@
             <objects>
                 <viewController id="Yda-g6-LI9" customClass="ClubDetailViewController" customModule="Eventsletter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AWI-Gi-BWq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="iWD-3l-aWo">
-                                <rect key="frame" x="16" y="301" width="38" height="37"/>
+                                <rect key="frame" x="16" y="213" width="38" height="37"/>
                                 <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="bs8-DW-CLP"/>
@@ -613,7 +624,7 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendar.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="2sj-Eh-Wu9">
-                                <rect key="frame" x="16" y="216.5" width="38" height="37"/>
+                                <rect key="frame" x="16" y="128.5" width="38" height="37"/>
                                 <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="38" id="7a8-vq-fr5"/>
@@ -621,42 +632,46 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="BCCSSA Meeting" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oks-j0-5nm">
-                                <rect key="frame" x="16" y="108" width="382" height="108"/>
+                                <rect key="frame" x="16" y="20" width="382" height="108"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="108" id="FX5-kJ-MfS"/>
                                 </constraints>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="29"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="December 32, 2020" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mZw-Vz-E68">
-                                <rect key="frame" x="78" y="216" width="320" height="38"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="December 32, 2020" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mZw-Vz-E68">
+                                <rect key="frame" x="78" y="128" width="320" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="Fhv-Af-A6G"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="18:00" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TDR-yF-sAL">
-                                <rect key="frame" x="111.5" y="254" width="286.5" height="38"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="18:00" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TDR-yF-sAL">
+                                <rect key="frame" x="119" y="166" width="279" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="sNP-we-V7o"/>
                                 </constraints>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Happy Holiday Hotel" borderStyle="roundedRect" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="oBV-p4-uzZ">
-                                <rect key="frame" x="78" y="300" width="320" height="38"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Happy Holiday Hotel" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="oBV-p4-uzZ">
+                                <rect key="frame" x="78" y="212" width="320" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="QSs-cG-2qP"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="24"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="meetingAddressEditingChanged:" destination="Yda-g6-LI9" eventType="editingChanged" id="fFR-Ti-YA8"/>
+                                    <action selector="meetingAddressReturnPressed:" destination="Yda-g6-LI9" eventType="primaryActionTriggered" id="5k9-tk-ftl"/>
+                                </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSh-G5-zNs">
-                                <rect key="frame" x="78" y="254" width="33.5" height="38"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSh-G5-zNs">
+                                <rect key="frame" x="78" y="166" width="41" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="NBr-XC-BDF"/>
                                 </constraints>
@@ -665,7 +680,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OwV-8C-WQo">
-                                <rect key="frame" x="184.5" y="438" width="45" height="30"/>
+                                <rect key="frame" x="184.5" y="350" width="45" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="bfH-vH-ump"/>
                                 </constraints>
@@ -716,10 +731,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelButton" destination="hL0-lk-SVl" id="kUZ-b6-90F"/>
                         <outlet property="clubMeetingTextView" destination="Oks-j0-5nm" id="f2v-hd-bDu"/>
                         <outlet property="meetingAddressTextField" destination="oBV-p4-uzZ" id="hwF-zM-O8n"/>
                         <outlet property="meetingDateTextField" destination="mZw-Vz-E68" id="sHF-7a-6dr"/>
                         <outlet property="meetingStartTimeTextField" destination="TDR-yF-sAL" id="bGo-Dw-dCN"/>
+                        <outlet property="saveButton" destination="JAJ-Tf-IBW" id="Vll-Mo-qSB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZCv-xZ-JIm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -837,11 +854,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gdZ-0m-3P2"/>
-        <segue reference="h7r-7Q-kbO"/>
-        <segue reference="x6e-A7-Ma2"/>
-        <segue reference="j0l-ws-9jR"/>
-        <segue reference="aA6-Qy-x2k"/>
+        <segue reference="ZNm-Rj-mfz"/>
+        <segue reference="GEO-3K-6fa"/>
+        <segue reference="7ts-W0-DVm"/>
+        <segue reference="cob-JJ-Xyb"/>
+        <segue reference="CtE-NF-252"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>

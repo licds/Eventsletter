@@ -21,14 +21,43 @@ class ClubDetailViewController: UIViewController {
     @IBOutlet weak var meetingDateTextField: UITextField!
     @IBOutlet weak var meetingStartTimeTextField: UITextField!
     @IBOutlet weak var meetingAddressTextField: UITextField!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
     
     var clubMeeting: ClubMeeting!
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        //hide keyboard if we tap outside of a field
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        
         if clubMeeting == nil {
             clubMeeting = ClubMeeting()
+            clubMeetingTextView.addBorder(width: 0.5, radius: 5.0, color: .red)
+            meetingDateTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
+            meetingStartTimeTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
+            meetingAddressTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
+            saveButton.isEnabled = false
+        } else {
+            clubMeetingTextView.isEditable = false
+            clubMeetingTextView.backgroundColor = UIColor.clear
+            clubMeetingTextView.noBorder()
+            meetingDateTextField.isEnabled = false
+            meetingDateTextField.backgroundColor = UIColor.white
+            meetingDateTextField.noBorder()
+            meetingStartTimeTextField.isEnabled = false
+            meetingStartTimeTextField.backgroundColor = UIColor.white
+            meetingStartTimeTextField.noBorder()
+            meetingAddressTextField.isEnabled = false
+            meetingAddressTextField.backgroundColor = UIColor.white
+            meetingAddressTextField.noBorder()
+            saveButton.title = ""
+            cancelButton.title = ""
+            saveButton.isEnabled = false
         }
+    
+        
         updateUserInterface()
     }
     
@@ -83,6 +112,20 @@ class ClubDetailViewController: UIViewController {
                 navigationController?.popViewController(animated: true)
             }
         }
+    
+    @IBAction func meetingAddressEditingChanged(_ sender: UITextField) {
+        saveButton.isEnabled = !(meetingAddressTextField.text == "")
+    }
+    
+    @IBAction func meetingAddressReturnPressed(_ sender: UITextField) {
+        sender.resignFirstResponder()
+        clubMeeting.clubName = clubMeetingTextView.text!
+        clubMeeting.meetingAddress = meetingAddressTextField.text!
+        updateUserInterface()
+    }
+    
+    
+    
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         clubMeeting.clubName = clubMeetingTextView.text!
         clubMeeting.meetingAddress = meetingAddressTextField.text!

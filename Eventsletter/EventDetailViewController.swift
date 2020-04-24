@@ -40,6 +40,9 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var mapViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var flagHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var showMapButton: UIButton!
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var lookupButton: UIButton!
     
     var event: Event!
     let regionDistance: CLLocationDistance = 750 // 750 meters
@@ -48,12 +51,41 @@ class EventDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //hide keyboard if we tap outside of a field
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
 //        mapView.delegate = self
         
         if event == nil {
             event = Event()
             getLocation()
+            nameTextView.addBorder(width: 0.5, radius: 5.0, color: .red)
+            dateTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
+            startTimeTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
+            addressTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
+            descriptionTextView.addBorder(width: 0.5, radius: 5.0, color: .red)
+            saveButton.isEnabled = false
+        } else {
+            nameTextView.isEditable = false
+            nameTextView.backgroundColor = UIColor.clear
+            nameTextView.noBorder()
+            dateTextField.isEnabled = false
+            dateTextField.backgroundColor = UIColor.white
+            dateTextField.noBorder()
+            startTimeTextField.isEnabled = false
+            startTimeTextField.backgroundColor = UIColor.white
+            startTimeTextField.noBorder()
+            addressTextField.isEnabled = false
+            addressTextField.backgroundColor = UIColor.white
+            addressTextField.noBorder()
+            descriptionTextView.isEditable = false
+            descriptionTextView.backgroundColor = UIColor.white
+            descriptionTextView.noBorder()
+            saveButton.title = ""
+            cancelButton.title = ""
+            saveButton.isEnabled = false
+            lookupButton.isHidden = true
         }
         
         let region = MKCoordinateRegion(center: event.coordinate, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
@@ -189,6 +221,17 @@ class EventDetailViewController: UIViewController {
         alertController.addAction(alertAction)
         present(alertController, animated: true, completion: nil)
     }
+    
+    @IBAction func addressTextFieldEditingChanged(_ sender: UITextField) {
+        saveButton.isEnabled = !(dateTextField.text == "")
+    }
+    @IBAction func addressTextFieldReturnPressed(_ sender: UITextField) {
+        sender.resignFirstResponder()
+        event.name = nameTextView.text!
+        event.address = addressTextField.text!
+        updateUserInterface()
+    }
+    
     
     @IBAction func lookupLocationButtonPressed(_ sender: UIButton) {
         let autocompleteController = GMSAutocompleteViewController()
