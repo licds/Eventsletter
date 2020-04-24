@@ -9,12 +9,27 @@
 import UIKit
 import MapKit
 import GooglePlaces
+import Contacts
+
+private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    dateFormatter.timeStyle = .short
+    return dateFormatter
+}()
+//
+//private let timeFormatter: DateFormatter = {
+//    let timeFormatter = DateFormatter()
+//    timeFormatter.dateStyle = .none
+//    timeFormatter.timeStyle = .short
+//    return timeFormatter
+//}()
 
 class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventImageView: UIImageView!
     @IBOutlet weak var nameTextView: UITextView!
     @IBOutlet weak var dateTextField: UITextField!
-    @IBOutlet weak var timeTextField: UITextField!
+    @IBOutlet weak var startTimeTextField: UITextField!
     @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -22,9 +37,14 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewInScrollViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var flagHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var showMapButton: UIButton!
     
     var event: Event!
-    var regionDistance: CLLocationDistance = 750 // 750 meters
+    let regionDistance: CLLocationDistance = 750 // 750 meters
+    var locationManager: CLLocationManager!
+    var currentLocation: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +53,7 @@ class EventDetailViewController: UIViewController {
         
         if event == nil {
             event = Event()
+            getLocation()
         }
         
         let region = MKCoordinateRegion(center: event.coordinate, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
@@ -46,6 +67,55 @@ class EventDetailViewController: UIViewController {
         descriptionTextViewHeightConstraint.constant = self.descriptionTextView.contentSize.height
         viewInScrollViewHeightConstraint.constant = eventImageView.frame.size.height + descriptionTextViewHeightConstraint.constant + 368 + 150
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    @objc func datePickerValueChanged(sender: UIDatePicker) {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        dateTextField.text = formatter.string(from: sender.date)
+        event.date = sender.date
+    }
+    
+    @objc func startTimePickerValueChanged(sender: UIDatePicker) {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        startTimeTextField.text = formatter.string(from: sender.date)
+        event.startTime = sender.date
+    }
+//
+//    @objc func endTimePickerValueChanged(sender: UIDatePicker) {
+//        let formatter = DateFormatter()
+//        formatter.dateStyle = .none
+//        formatter.timeStyle = .short
+//        endTimeTextField.text = formatter.string(from: sender.date)
+//        event.endTime = sender.date
+//    }
+    
+    func updateDatePicker() {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
+        datePicker.addTarget(self, action: #selector(EventDetailViewController.datePickerValueChanged(sender:)), for: UIControl.Event.valueChanged)
+        dateTextField.inputView = datePicker
+    }
+    
+    func updateStartTimePicker() {
+        let startTimePicker = UIDatePicker()
+        startTimePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
+        startTimePicker.addTarget(self, action: #selector(EventDetailViewController.startTimePickerValueChanged(sender:)), for: UIControl.Event.valueChanged)
+        startTimeTextField.inputView = startTimePicker
+    }
+//
+//    func updateEndTimePicker() {
+//        let endTimePicker = UIDatePicker()
+//        endTimePicker.datePickerMode = UIDatePicker.Mode.time
+//        endTimePicker.addTarget(self, action: #selector(EventDetailViewController.endTimePickerValueChanged(sender:)), for: UIControl.Event.valueChanged)
+//        endTimeTextField.inputView = endTimePicker
+//    }
     
     func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
         return CGRect(x: x, y: y, width: width, height: height)
@@ -87,9 +157,13 @@ class EventDetailViewController: UIViewController {
     
     func updateUserInterface() {
         nameTextView.text = event.name
-        dateTextField.text = event.date
-        timeTextField.text = event.time
-        addressTextField.text = event.address
+        updateDatePicker()
+        updateStartTimePicker()
+//        updateEndTimePicker()
+        dateTextField.text = dateFormatter.string(from: event.date)
+        startTimeTextField.text = dateFormatter.string(from: event.startTime)
+//        endTimeTextField.text = timeFormatter.string(from: event.endTime)
+        addressTextField.text = event.eventAddress
         descriptionTextView.text = event.eventDescription
         updateMap()
     }
@@ -109,22 +183,39 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(alertAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     @IBAction func lookupLocationButtonPressed(_ sender: UIButton) {
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
         // Display the autocomplete view controller.
         present(autocompleteController, animated: true, completion: nil)
     }
+    @IBAction func showMap(_ sender: UIButton) {
+        if showMapButton.currentTitle == "Show Map" {
+            mapViewHeightConstraint.constant = 170
+            flagHeightConstraint.constant += 170
+            showMapButton.setTitle("Hide Map", for: .normal)
+        } else if showMapButton.currentTitle == "Hide Map" {
+            mapViewHeightConstraint.constant = 0
+            flagHeightConstraint.constant -= 170
+            showMapButton.setTitle("Show Map", for: .normal)
+        }        
+    }
+    
     @IBAction func likeButtonPressed(_ sender: UIButton) {
     }
     @IBAction func deleteButtonPressed(_ sender: UIButton) {
     }
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         event.name = nameTextView.text!
-        event.date = dateTextField.text!
-        event.time = timeTextField.text!
         event.eventDescription = descriptionTextView.text!
-        event.address = addressTextField.text!
+        event.eventAddress = addressTextField.text!
         event.saveData { success in
             if success {
                 self.leaveViewController()
@@ -143,7 +234,7 @@ extension EventDetailViewController: GMSAutocompleteViewControllerDelegate {
   // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         event.addressName = place.name!
-        event.address = place.formattedAddress ?? "Unknown Address"
+        event.eventAddress = place.formattedAddress ?? "Unknown Address"
         event.coordinate = place.coordinate
         dismiss(animated: true, completion: nil)
         updateUserInterface()
@@ -166,5 +257,73 @@ extension EventDetailViewController: GMSAutocompleteViewControllerDelegate {
 
     func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+}
+
+extension EventDetailViewController: CLLocationManagerDelegate {
+    func getLocation() {
+        // Creating a CLLocationManager will automatically check authorization
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+    }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        handleAuthenticalStatus(status: status)
+    }
+    func handleAuthenticalStatus(status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            showAlert(title: "Location services denied", message: "It may be that parental controls are restricting location use in the app.")
+        case .denied:
+            showAlertToPrivacySettings(title: "User has not authorized location services", message: "Select 'Settings' below to enable device settings and enable location services for this app.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.requestLocation()
+        @unknown default:
+            print("DEVELOPER ALERT: Unknown case of status in handleAuthenticalStatus\(status)")
+        }
+    }
+    
+    func showAlertToPrivacySettings(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        guard let settingURL = URL(string: UIApplication.openSettingsURLString) else {
+            print("Something went wrong getting the UIApplication.opernSettingsURLString")
+            return
+        }
+        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) in
+            UIApplication.shared.open(settingURL, options: [:], completionHandler: nil)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(settingsAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard event.addressName == "" else {
+            return
+        }
+        let geoCoder = CLGeocoder()
+        var name = ""
+        var address = ""
+        currentLocation = locations.last
+        event.coordinate = currentLocation.coordinate
+        geoCoder.reverseGeocodeLocation(currentLocation, completionHandler: {placemarks, error in
+            if placemarks != nil {
+                let placemark = placemarks?.last
+                name = placemark?.name ?? "name unknown"
+                // need to import Contacts to use this code:
+                if let postalAddress = placemark?.postalAddress {
+                    address = CNPostalAddressFormatter.string(from: postalAddress, style: .mailingAddress)
+                }
+            } else {
+                print("*** ERROR: retrieving place. Error code: \(error!.localizedDescription)")
+            }
+            self.event.addressName = name
+            self.event.address = address
+            self.updateUserInterface()
+        })
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("ERROR: \(error.localizedDescription). Failed to get device location.")
     }
 }

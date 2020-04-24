@@ -31,6 +31,8 @@ class EventsListViewController: UIViewController {
         listTableView.isHidden = true
         
         events = Events()
+        sortByDate()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +44,10 @@ class EventsListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         signin()
+    }
+    
+    func sortByDate() {
+        events.eventsArray.sort(by: {$0.date < $1.date})
     }
     
     func signin() {

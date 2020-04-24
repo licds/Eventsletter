@@ -8,6 +8,28 @@
 
 import UIKit
 import CoreLocation
+
+private let fullDateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    dateFormatter.timeStyle = .short
+    return dateFormatter
+}()
+
+private let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    dateFormatter.timeStyle = .none
+    return dateFormatter
+}()
+
+private let timeFormatter: DateFormatter = {
+    let timeFormatter = DateFormatter()
+    timeFormatter.dateStyle = .none
+    timeFormatter.timeStyle = .short
+    return timeFormatter
+}()
+
 class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -16,13 +38,26 @@ class EventTableViewCell: UITableViewCell {
     var event: Event!
     
     func configureCell(event: Event!){
-        nameLabel.text = event.name
-        if event.addressName == "" {
-            addressLabel.text = event.address
+        let date = fullDateFormatter.string(from: event.date)
+        let startDate = dateFormatter.string(from: event.date)
+        let endDate = dateFormatter.string(from: event.startTime)
+        let startTime = timeFormatter.string(from: event.startTime)
+        let startTimeWithDate = fullDateFormatter.string(from: event.startTime)
+        if event.name == "" {
+            nameLabel.text = "Unknown Event"
         } else {
-            addressLabel.text = event.addressName
+            nameLabel.text = event.name
         }
-        timeLabel.text = "\(event.date)   \(event.time)"
+        if event.eventAddress == "" {
+            addressLabel.text = "TBD"
+        } else {
+            addressLabel.text = event.eventAddress
+        }
+        if startDate == endDate {
+            timeLabel.text = "\(date) - \(startTime)"
+        } else {
+            timeLabel.text = "\(date) - \(startTimeWithDate)"
+        }
     }
     
 }

@@ -13,12 +13,14 @@ import MapKit
 
 class Event: NSObject, MKAnnotation {
     var name: String
+    var eventAddress: String
     var address: String
     var addressName: String
     var coordinate: CLLocationCoordinate2D
-    var date: String //Date
-    var time: String
+    var date: Date
+    var startTime: Date
     var eventDescription: String
+    var eventType: String
 //    var reminderSet: Bool
     var numberOfLikes: Int
     var postingUserID: String
@@ -38,21 +40,25 @@ class Event: NSObject, MKAnnotation {
     }
     
     var subtitle: String? {
-        return address
+        return eventAddress
     }
     
     var dictionary: [String: Any] {
-        return ["name": name, "addressName": addressName, "address": address, "longitude": longitude, "latitude": latitude, "date": date, "time": time, "eventDescription": eventDescription, "numberOfLikes": numberOfLikes, "postingUserID": postingUserID]
+        let dateIntervalDate = date.timeIntervalSince1970
+        let startTimeIntervalDate = startTime.timeIntervalSince1970
+        return ["name": name, "addressName": addressName, "address": address, "eventAddress": eventAddress, "longitude": longitude, "latitude": latitude, "date": dateIntervalDate, "startTime": startTimeIntervalDate, "eventDescription": eventDescription, "eventType": eventType, "numberOfLikes": numberOfLikes, "postingUserID": postingUserID]
     }
     
-    init(name: String, address: String, addressName: String, coordinate: CLLocationCoordinate2D, date: String, time: String, eventDescription: String, numberOfLikes: Int, postingUserID: String, documentID: String) {
+    init(name: String, eventAddress: String, address: String, addressName: String, coordinate: CLLocationCoordinate2D, date: Date, startTime: Date, eventDescription: String, eventType: String, numberOfLikes: Int, postingUserID: String, documentID: String) {
         self.name = name
+        self.eventAddress = eventAddress
         self.address = address
         self.addressName = addressName
         self.coordinate = coordinate
         self.date = date
-        self.time = time
+        self.startTime = startTime
         self.eventDescription = eventDescription
+        self.eventType = eventType
 //        self.reminderSet = reminderSet
         self.numberOfLikes = numberOfLikes
         self.postingUserID = postingUserID
@@ -60,22 +66,26 @@ class Event: NSObject, MKAnnotation {
     }
     
     convenience override init() {
-        self.init(name: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: "", time: "", eventDescription: "", numberOfLikes: 0, postingUserID: "", documentID: "")
+        self.init(name: "", eventAddress: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: Date(), startTime: Date(), eventDescription: "", eventType: "", numberOfLikes: 0, postingUserID: "", documentID: "")
     }
     
     convenience init(dictionary: [String: Any]) {
         let name = dictionary["name"] as! String? ?? ""
         let addressName = dictionary["addressName"] as! String? ?? ""
         let address = dictionary["address"] as! String? ?? ""
+        let eventAddress = dictionary["eventAddress"] as! String? ?? ""
         let longitude = dictionary["longitude"] as! CLLocationDegrees? ?? 0.0
         let latitude = dictionary["latitude"] as! CLLocationDegrees? ?? 0.0
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let date = dictionary["date"] as! String? ?? ""
-        let time = dictionary["time"] as! String? ?? ""
+        let dateIntervalDate = dictionary["date"] as! TimeInterval? ?? TimeInterval()
+        let date = Date(timeIntervalSince1970: dateIntervalDate)
+        let startTimeIntervalDate = dictionary["startTime"] as! TimeInterval? ?? TimeInterval()
+        let startTime = Date(timeIntervalSince1970: startTimeIntervalDate)
         let eventDescription = dictionary["eventDescription"] as! String? ?? ""
+        let eventType = dictionary["eventType"] as! String? ?? ""
         let numberOfLikes = dictionary["numberOfLikes"] as! Int? ?? 0
         let postingUserID = dictionary["postingUserID"] as! String? ?? ""
-        self.init(name: name, address: address, addressName: addressName, coordinate: coordinate, date: date, time: time, eventDescription: eventDescription, numberOfLikes: numberOfLikes, postingUserID: postingUserID, documentID: "")
+        self.init(name: name, eventAddress: eventAddress, address: address, addressName: addressName, coordinate: coordinate, date: date, startTime: startTime, eventDescription: eventDescription, eventType: eventType, numberOfLikes: numberOfLikes, postingUserID: postingUserID, documentID: "")
     }
     
     func saveData(completed: @escaping (Bool) -> ()) {
