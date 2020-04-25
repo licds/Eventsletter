@@ -5,6 +5,7 @@
 //  Created by Yi Li on 4/18/20.
 //  Copyright © 2020 Yi Li. All rights reserved.
 //
+//IMPORTANT: Saving and passing of nameTextView data needs to be handled better
 
 import UIKit
 import MapKit
@@ -17,13 +18,6 @@ private let dateFormatter: DateFormatter = {
     dateFormatter.timeStyle = .short
     return dateFormatter
 }()
-//
-//private let timeFormatter: DateFormatter = {
-//    let timeFormatter = DateFormatter()
-//    timeFormatter.dateStyle = .none
-//    timeFormatter.timeStyle = .short
-//    return timeFormatter
-//}()
 
 class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventImageView: UIImageView!
@@ -68,6 +62,8 @@ class EventDetailViewController: UIViewController {
 //        mapView.delegate = self
         
         descriptionTextView.delegate = self
+        nameTextView.delegate = self
+        
         
         // Observe keyboard change
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -442,6 +438,7 @@ extension EventDetailViewController {
             return
         }
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//IMPORTANT: Room for improvement
             keyboardHeight = keyboardSize.height
             // so increase contentView's height by keyboard height
             UIView.animate(withDuration: 0.3, animations: {
@@ -453,12 +450,16 @@ extension EventDetailViewController {
             let c = activeView?.frame.size.height
             if b != nil {
                 if c != nil {
-                    let a = a - b! - c!
+                    a = a - b! - c!
                 } else {
-                    let a = a - b!
+                    a = a - b!
+                }
+            } else {
+                if c != nil {
+                    a = a - c!
                 }
             }
-//            let distanceToBottom = self.scrollView.frame.size.height - (activeView?.frame.origin.y)! - (activeView?.frame.size.height)!
+//          let distanceToBottom = self.scrollView.frame.size.height - (activeView?.frame.origin.y)! - (activeView?.frame.size.height)
             let collapseSpace = keyboardHeight - a
             if collapseSpace < 0 {
             // no collapse
@@ -467,7 +468,7 @@ extension EventDetailViewController {
             // set new offset for scroll view
             UIView.animate(withDuration: 0.3, animations: {
                 // scroll to the position above keyboard 10 points
-                self.scrollView.contentOffset = CGPoint(x: self.lastOffset.x, y: collapseSpace + 10)
+                self.scrollView.contentOffset = CGPoint(x: self.lastOffset.x, y: collapseSpace + 80)
             })
         }
     }
