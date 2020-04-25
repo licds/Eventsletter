@@ -140,10 +140,19 @@
                                             </imageView>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7ww-cD-cTU">
                                                 <rect key="frame" x="78" y="434" width="320" height="0.0"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="jmz-CU-1YM"/>
                                                 </constraints>
                                             </mapView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flag.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="gYW-VZ-vts">
+                                                <rect key="frame" x="16" y="442.5" width="38" height="37"/>
+                                                <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="38" id="jNN-YZ-SAc"/>
+                                                    <constraint firstAttribute="height" constant="38" id="xI6-fh-DJP"/>
+                                                </constraints>
+                                            </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0aB-Pr-7nO">
                                                 <rect key="frame" x="78" y="320" width="40.5" height="38"/>
                                                 <constraints>
@@ -165,18 +174,23 @@
                                                     <action selector="showMap:" destination="eYr-79-yMF" eventType="touchUpInside" id="7It-S3-GYm"/>
                                                 </connections>
                                             </button>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flag.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="gYW-VZ-vts">
-                                                <rect key="frame" x="16" y="442.5" width="38" height="37"/>
-                                                <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgT-9e-FTx">
+                                                <rect key="frame" x="307" y="404" width="91" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="38" id="jNN-YZ-SAc"/>
-                                                    <constraint firstAttribute="height" constant="38" id="xI6-fh-DJP"/>
+                                                    <constraint firstAttribute="height" constant="30" id="ISb-bg-Y2D"/>
                                                 </constraints>
-                                            </imageView>
+                                                <state key="normal" title="Get Direction">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="getDirectionButtonPressed:" destination="eYr-79-yMF" eventType="touchUpInside" id="zex-n8-1rP"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstItem="4Om-0o-BvC" firstAttribute="top" secondItem="7ww-cD-cTU" secondAttribute="bottom" constant="8" id="0bC-NY-kxL"/>
+                                            <constraint firstItem="xgT-9e-FTx" firstAttribute="top" secondItem="w2X-2z-iCZ" secondAttribute="bottom" id="2vk-KE-EEo"/>
                                             <constraint firstItem="w2X-2z-iCZ" firstAttribute="leading" secondItem="XbX-Gg-Z04" secondAttribute="trailing" constant="24" id="5PN-6C-Cg0"/>
                                             <constraint firstItem="7ww-cD-cTU" firstAttribute="top" secondItem="pO0-yp-nag" secondAttribute="bottom" id="5lf-gR-G0Q"/>
                                             <constraint firstAttribute="trailing" secondItem="pO0-yp-nag" secondAttribute="trailing" constant="16" id="6P2-Mb-l1R"/>
@@ -212,6 +226,7 @@
                                             <constraint firstAttribute="trailing" secondItem="4Om-0o-BvC" secondAttribute="trailing" constant="16" id="qkz-Gh-iIp"/>
                                             <constraint firstItem="R1D-7N-2gX" firstAttribute="leading" secondItem="yv1-YA-Jwp" secondAttribute="trailing" constant="8" id="qlZ-Wy-3gc"/>
                                             <constraint firstItem="mn9-sO-54l" firstAttribute="top" secondItem="OlA-x0-Wxh" secondAttribute="bottom" id="sP2-hK-wWx"/>
+                                            <constraint firstAttribute="trailing" secondItem="xgT-9e-FTx" secondAttribute="trailing" constant="16" id="t2z-19-NBx"/>
                                             <constraint firstItem="Sbv-5r-9oT" firstAttribute="top" secondItem="4Om-0o-BvC" secondAttribute="bottom" constant="8" id="tte-iD-Lba"/>
                                             <constraint firstAttribute="trailing" secondItem="mn9-sO-54l" secondAttribute="trailing" constant="16" id="uQx-gX-H6i"/>
                                             <constraint firstItem="yv1-YA-Jwp" firstAttribute="leading" secondItem="Sbv-5r-9oT" secondAttribute="trailing" id="ukZ-UH-ltb"/>
@@ -259,17 +274,22 @@
                     <connections>
                         <outlet property="addressTextField" destination="w2X-2z-iCZ" id="ObZ-Wn-5bk"/>
                         <outlet property="cancelButton" destination="gQv-7b-DAP" id="57t-74-hxY"/>
+                        <outlet property="constraintContentHeight" destination="s69-zT-Gsd" id="PMM-3t-Tx6"/>
+                        <outlet property="contentView" destination="6sG-rN-HgS" id="en0-LH-5f5"/>
                         <outlet property="dateTextField" destination="mn9-sO-54l" id="EeC-lM-AoK"/>
                         <outlet property="descriptionTextView" destination="4Om-0o-BvC" id="Uwm-I4-Ash"/>
                         <outlet property="descriptionTextViewHeightConstraint" destination="L9K-7T-x71" id="jCF-0p-k9B"/>
+                        <outlet property="descriptionTextViewTopConstraint" destination="0bC-NY-kxL" id="brp-r8-hN4"/>
                         <outlet property="eventImageView" destination="dF4-iJ-Kac" id="kRZ-xa-oUI"/>
-                        <outlet property="flagHeightConstraint" destination="GAp-Xw-GbY" id="NwZ-md-Apq"/>
+                        <outlet property="flagTopConstraint" destination="GAp-Xw-GbY" id="NwZ-md-Apq"/>
+                        <outlet property="getDirectionButton" destination="xgT-9e-FTx" id="VDn-vf-cYL"/>
                         <outlet property="likeButton" destination="yv1-YA-Jwp" id="Gbc-X3-j9q"/>
                         <outlet property="lookupButton" destination="pO0-yp-nag" id="yfo-J1-tRO"/>
                         <outlet property="mapView" destination="7ww-cD-cTU" id="gs9-oz-Ovt"/>
                         <outlet property="mapViewHeightConstraint" destination="jmz-CU-1YM" id="9L5-O2-Fcd"/>
                         <outlet property="nameTextView" destination="OlA-x0-Wxh" id="Lfx-VV-4uK"/>
                         <outlet property="saveButton" destination="u9D-hi-AOt" id="5wN-Tt-Wgn"/>
+                        <outlet property="scrollView" destination="VlU-1n-8OY" id="BzU-qu-SPu"/>
                         <outlet property="showMapButton" destination="DNm-DW-3fD" id="YBK-h1-30n"/>
                         <outlet property="startTimeTextField" destination="le4-Ps-7ud" id="fJp-00-9is"/>
                         <outlet property="thumbImageView" destination="Sbv-5r-9oT" id="Oi2-iR-q7N"/>
@@ -277,6 +297,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdx-8s-JUO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="GoK-o5-kg2"/>
             </objects>
             <point key="canvasLocation" x="4643.4782608695659" y="128.57142857142856"/>
         </scene>

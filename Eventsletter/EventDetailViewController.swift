@@ -38,16 +38,26 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var viewInScrollViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var flagHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var flagTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var showMapButton: UIButton!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var lookupButton: UIButton!
+    @IBOutlet weak var descriptionTextViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var getDirectionButton: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var constraintContentHeight: NSLayoutConstraint!
+    @IBOutlet weak var contentView: UIView!
     
     var event: Event!
     let regionDistance: CLLocationDistance = 750 // 750 meters
     var locationManager: CLLocationManager!
     var currentLocation: CLLocation!
+    var mapIsAvailable: Bool!
+    
+    var activeView: UITextView?
+    var lastOffset: CGPoint!
+    var keyboardHeight: CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,15 +67,26 @@ class EventDetailViewController: UIViewController {
         self.view.addGestureRecognizer(tap)
 //        mapView.delegate = self
         
+        descriptionTextView.delegate = self
+        
+        // Observe keyboard change
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        // Add touch gesture for contentView
+        self.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(returnTextView(gesture:))))
+        
         if event == nil {
             event = Event()
             getLocation()
-            nameTextView.addBorder(width: 0.5, radius: 5.0, color: .red)
-            dateTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
-            startTimeTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
-            addressTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
-            descriptionTextView.addBorder(width: 0.5, radius: 5.0, color: .red)
+            nameTextView.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            dateTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            startTimeTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            addressTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            descriptionTextView.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
             saveButton.isEnabled = false
+            showMapButton.setTitle("Enable Map", for: .normal)
+            getDirectionButton.isHidden = true
         } else {
             nameTextView.isEditable = false
             nameTextView.backgroundColor = UIColor.clear
@@ -86,12 +107,20 @@ class EventDetailViewController: UIViewController {
             cancelButton.title = ""
             saveButton.isEnabled = false
             lookupButton.isHidden = true
+            if event.map == false {
+                showMapButton.isHidden = true
+                flagTopConstraint.constant -= 30
+                descriptionTextViewTopConstraint.constant -= 30
+            }
         }
-        
+
+        getDirectionButton.isHidden = true
         let region = MKCoordinateRegion(center: event.coordinate, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
         mapView.setRegion(region, animated: true)
         updateUserInterface()
     }
+    
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -119,14 +148,15 @@ class EventDetailViewController: UIViewController {
         startTimeTextField.text = formatter.string(from: sender.date)
         event.startTime = sender.date
     }
-//
-//    @objc func endTimePickerValueChanged(sender: UIDatePicker) {
-//        let formatter = DateFormatter()
-//        formatter.dateStyle = .none
-//        formatter.timeStyle = .short
-//        endTimeTextField.text = formatter.string(from: sender.date)
-//        event.endTime = sender.date
-//    }
+    
+    @objc func returnTextView(gesture: UIGestureRecognizer) {
+        guard activeView != nil else {
+            return
+        }
+        
+        activeView?.resignFirstResponder()
+        activeView = nil
+    }
     
     func updateDatePicker() {
         let datePicker = UIDatePicker()
@@ -141,13 +171,6 @@ class EventDetailViewController: UIViewController {
         startTimePicker.addTarget(self, action: #selector(EventDetailViewController.startTimePickerValueChanged(sender:)), for: UIControl.Event.valueChanged)
         startTimeTextField.inputView = startTimePicker
     }
-//
-//    func updateEndTimePicker() {
-//        let endTimePicker = UIDatePicker()
-//        endTimePicker.datePickerMode = UIDatePicker.Mode.time
-//        endTimePicker.addTarget(self, action: #selector(EventDetailViewController.endTimePickerValueChanged(sender:)), for: UIControl.Event.valueChanged)
-//        endTimeTextField.inputView = endTimePicker
-//    }
     
     func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
         return CGRect(x: x, y: y, width: width, height: height)
@@ -187,6 +210,7 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+    
     func updateUserInterface() {
         nameTextView.text = event.name
         updateDatePicker()
@@ -223,12 +247,14 @@ class EventDetailViewController: UIViewController {
     }
     
     @IBAction func addressTextFieldEditingChanged(_ sender: UITextField) {
-        saveButton.isEnabled = !(dateTextField.text == "")
+        saveButton.isEnabled = !(addressTextField.text == "")
+        event.eventAddress = addressTextField.text!
     }
+    
     @IBAction func addressTextFieldReturnPressed(_ sender: UITextField) {
         sender.resignFirstResponder()
         event.name = nameTextView.text!
-        event.address = addressTextField.text!
+        addressTextField.text = event.eventAddress
         updateUserInterface()
     }
     
@@ -239,16 +265,40 @@ class EventDetailViewController: UIViewController {
         // Display the autocomplete view controller.
         present(autocompleteController, animated: true, completion: nil)
     }
+    
     @IBAction func showMap(_ sender: UIButton) {
         if showMapButton.currentTitle == "Show Map" {
             mapViewHeightConstraint.constant = 170
-            flagHeightConstraint.constant += 170
+            flagTopConstraint.constant += 170
             showMapButton.setTitle("Hide Map", for: .normal)
+            getDirectionButton.isHidden = false
         } else if showMapButton.currentTitle == "Hide Map" {
             mapViewHeightConstraint.constant = 0
-            flagHeightConstraint.constant -= 170
+            flagTopConstraint.constant -= 170
             showMapButton.setTitle("Show Map", for: .normal)
-        }        
+            getDirectionButton.isHidden = true
+        } else if showMapButton.currentTitle == "Enable Map" {
+            mapViewHeightConstraint.constant = 170
+            flagTopConstraint.constant += 170
+            showMapButton.setTitle("Disable Map", for: .normal)
+            event.map = true
+        } else if showMapButton.currentTitle == "Disable Map" {
+            mapViewHeightConstraint.constant = 0
+            flagTopConstraint.constant -= 170
+            showMapButton.setTitle("Enable Map", for: .normal)
+            event.map = false
+        }
+    }
+    @IBAction func getDirectionButtonPressed(_ sender: UIButton) {
+        let coordinate = event.coordinate
+        let regionDistance: CLLocationDistance = 1000
+        let regionSpan = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
+        
+        let placemark = MKPlacemark(coordinate: coordinate)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = event.addressName
+        mapItem.openInMaps(launchOptions: options)
     }
     
     @IBAction func likeButtonPressed(_ sender: UIButton) {
@@ -370,3 +420,66 @@ extension EventDetailViewController: CLLocationManagerDelegate {
         print("ERROR: \(error.localizedDescription). Failed to get device location.")
     }
 }
+
+extension EventDetailViewController: UITextViewDelegate {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        activeView = textView
+        lastOffset = self.scrollView.contentOffset
+        return true
+    }
+    
+    func textViewShouldReturn(_ textView: UITextView) -> Bool {
+        activeView?.resignFirstResponder()
+        activeView = nil
+        return true
+    }
+}
+
+
+extension EventDetailViewController {
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if keyboardHeight != nil {
+            return
+        }
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardHeight = keyboardSize.height
+            // so increase contentView's height by keyboard height
+            UIView.animate(withDuration: 0.3, animations: {
+                self.constraintContentHeight.constant += self.keyboardHeight
+            })
+            // move if keyboard hide input field
+            var a = scrollView.frame.size.height
+            let b = activeView?.frame.origin.y
+            let c = activeView?.frame.size.height
+            if b != nil {
+                if c != nil {
+                    let a = a - b! - c!
+                } else {
+                    let a = a - b!
+                }
+            }
+//            let distanceToBottom = self.scrollView.frame.size.height - (activeView?.frame.origin.y)! - (activeView?.frame.size.height)!
+            let collapseSpace = keyboardHeight - a
+            if collapseSpace < 0 {
+            // no collapse
+                return
+            }
+            // set new offset for scroll view
+            UIView.animate(withDuration: 0.3, animations: {
+                // scroll to the position above keyboard 10 points
+                self.scrollView.contentOffset = CGPoint(x: self.lastOffset.x, y: collapseSpace + 10)
+            })
+        }
+    }
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            self.constraintContentHeight.constant -= self.keyboardHeight
+            if self.lastOffset != nil {
+                self.scrollView.contentOffset = self.lastOffset!
+            }
+        }
+            
+        keyboardHeight = nil
+    }
+}
+

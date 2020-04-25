@@ -25,6 +25,7 @@ class Event: NSObject, MKAnnotation {
     var numberOfLikes: Int
     var postingUserID: String
     var documentID: String
+    var map: Bool
 //    var eventType: String
     
     var longitude: CLLocationDegrees {
@@ -46,10 +47,10 @@ class Event: NSObject, MKAnnotation {
     var dictionary: [String: Any] {
         let dateIntervalDate = date.timeIntervalSince1970
         let startTimeIntervalDate = startTime.timeIntervalSince1970
-        return ["name": name, "addressName": addressName, "address": address, "eventAddress": eventAddress, "longitude": longitude, "latitude": latitude, "date": dateIntervalDate, "startTime": startTimeIntervalDate, "eventDescription": eventDescription, "eventType": eventType, "numberOfLikes": numberOfLikes, "postingUserID": postingUserID]
+        return ["name": name, "addressName": addressName, "address": address, "eventAddress": eventAddress, "longitude": longitude, "latitude": latitude, "date": dateIntervalDate, "startTime": startTimeIntervalDate, "eventDescription": eventDescription, "eventType": eventType, "numberOfLikes": numberOfLikes, "postingUserID": postingUserID, "map": map]
     }
     
-    init(name: String, eventAddress: String, address: String, addressName: String, coordinate: CLLocationCoordinate2D, date: Date, startTime: Date, eventDescription: String, eventType: String, numberOfLikes: Int, postingUserID: String, documentID: String) {
+    init(name: String, eventAddress: String, address: String, addressName: String, coordinate: CLLocationCoordinate2D, date: Date, startTime: Date, eventDescription: String, eventType: String, numberOfLikes: Int, postingUserID: String, documentID: String, map: Bool) {
         self.name = name
         self.eventAddress = eventAddress
         self.address = address
@@ -63,10 +64,11 @@ class Event: NSObject, MKAnnotation {
         self.numberOfLikes = numberOfLikes
         self.postingUserID = postingUserID
         self.documentID = documentID
+        self.map = map
     }
     
     convenience override init() {
-        self.init(name: "", eventAddress: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: Date(), startTime: Date(), eventDescription: "", eventType: "", numberOfLikes: 0, postingUserID: "", documentID: "")
+        self.init(name: "", eventAddress: "", address: "", addressName: "", coordinate: CLLocationCoordinate2D(), date: Date(), startTime: Date(), eventDescription: "", eventType: "", numberOfLikes: 0, postingUserID: "", documentID: "", map: false)
     }
     
     convenience init(dictionary: [String: Any]) {
@@ -85,7 +87,8 @@ class Event: NSObject, MKAnnotation {
         let eventType = dictionary["eventType"] as! String? ?? ""
         let numberOfLikes = dictionary["numberOfLikes"] as! Int? ?? 0
         let postingUserID = dictionary["postingUserID"] as! String? ?? ""
-        self.init(name: name, eventAddress: eventAddress, address: address, addressName: addressName, coordinate: coordinate, date: date, startTime: startTime, eventDescription: eventDescription, eventType: eventType, numberOfLikes: numberOfLikes, postingUserID: postingUserID, documentID: "")
+        let map = dictionary["map"] as! Bool? ?? false
+        self.init(name: name, eventAddress: eventAddress, address: address, addressName: addressName, coordinate: coordinate, date: date, startTime: startTime, eventDescription: eventDescription, eventType: eventType, numberOfLikes: numberOfLikes, postingUserID: postingUserID, documentID: "", map: map)
     }
     
     func saveData(completed: @escaping (Bool) -> ()) {

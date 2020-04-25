@@ -34,10 +34,10 @@ class ClubDetailViewController: UIViewController {
         
         if clubMeeting == nil {
             clubMeeting = ClubMeeting()
-            clubMeetingTextView.addBorder(width: 0.5, radius: 5.0, color: .red)
-            meetingDateTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
-            meetingStartTimeTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
-            meetingAddressTextField.addBorder(width: 0.5, radius: 5.0, color: .red)
+            clubMeetingTextView.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            meetingDateTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            meetingStartTimeTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            meetingAddressTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
             saveButton.isEnabled = false
         } else {
             clubMeetingTextView.isEditable = false
