@@ -456,7 +456,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="8Qh-m2-gSp"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
                                 <state key="normal" title="Sign Out">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -473,13 +473,13 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="powered_by_google_on_white" translatesAutoresizingMaskIntoConstraints="NO" id="UAA-yJ-Vbl">
-                                <rect key="frame" x="50" y="441" width="314" height="109"/>
+                                <rect key="frame" x="50" y="411" width="314" height="109"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="UAA-yJ-Vbl" secondAttribute="height" multiplier="314:109" id="gqW-uk-3Ag"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="power" translatesAutoresizingMaskIntoConstraints="NO" id="pog-S5-Gk3">
-                                <rect key="frame" x="50" y="588" width="314" height="113"/>
+                                <rect key="frame" x="50" y="528" width="314" height="113"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="pog-S5-Gk3" secondAttribute="height" multiplier="314:113" id="mPq-uc-PYz"/>
                                 </constraints>
@@ -488,6 +488,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tWV-Q6-wVt" firstAttribute="trailing" secondItem="z3x-xL-gMo" secondAttribute="trailing" constant="20" id="02Y-7G-VLe"/>
+                            <constraint firstItem="pog-S5-Gk3" firstAttribute="top" secondItem="UAA-yJ-Vbl" secondAttribute="bottom" constant="8" id="2IY-8a-NOl"/>
                             <constraint firstAttribute="trailing" secondItem="svP-zH-1BF" secondAttribute="trailing" id="32C-EN-14a"/>
                             <constraint firstItem="UAA-yJ-Vbl" firstAttribute="centerX" secondItem="nfZ-8x-cK8" secondAttribute="centerX" id="4Ur-PD-AHp"/>
                             <constraint firstItem="tWV-Q6-wVt" firstAttribute="trailing" secondItem="UAA-yJ-Vbl" secondAttribute="trailing" constant="50" id="7ia-sg-yGM"/>
@@ -495,8 +496,7 @@
                             <constraint firstItem="tWV-Q6-wVt" firstAttribute="trailing" secondItem="pog-S5-Gk3" secondAttribute="trailing" constant="50" id="HjN-Uc-SAV"/>
                             <constraint firstItem="svP-zH-1BF" firstAttribute="leading" secondItem="tWV-Q6-wVt" secondAttribute="leading" id="JpS-7K-j3s"/>
                             <constraint firstItem="tWV-Q6-wVt" firstAttribute="bottom" secondItem="svP-zH-1BF" secondAttribute="bottom" id="LvF-9H-X8l"/>
-                            <constraint firstItem="pog-S5-Gk3" firstAttribute="top" secondItem="UAA-yJ-Vbl" secondAttribute="bottom" constant="38" id="POr-Uu-ei3"/>
-                            <constraint firstItem="UAA-yJ-Vbl" firstAttribute="top" secondItem="I9n-Wl-UD9" secondAttribute="bottom" constant="38" id="PZN-OE-FIR"/>
+                            <constraint firstItem="UAA-yJ-Vbl" firstAttribute="top" secondItem="I9n-Wl-UD9" secondAttribute="bottom" constant="8" id="Sn4-mt-5BD"/>
                             <constraint firstItem="UAA-yJ-Vbl" firstAttribute="leading" secondItem="tWV-Q6-wVt" secondAttribute="leading" constant="50" id="VV8-8s-ngX"/>
                             <constraint firstItem="svP-zH-1BF" firstAttribute="top" secondItem="z3x-xL-gMo" secondAttribute="bottom" constant="30" id="VrN-0g-YDS"/>
                             <constraint firstItem="z3x-xL-gMo" firstAttribute="leading" secondItem="tWV-Q6-wVt" secondAttribute="leading" constant="20" id="WzY-Di-2tJ"/>
@@ -884,7 +884,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="gdZ-0m-3P2"/>
-        <segue reference="GEO-3K-6fa"/>
+        <segue reference="h7r-7Q-kbO"/>
         <segue reference="b95-9F-ogN"/>
         <segue reference="cob-JJ-Xyb"/>
         <segue reference="CtE-NF-252"/>

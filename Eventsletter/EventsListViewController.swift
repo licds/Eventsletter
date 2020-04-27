@@ -38,6 +38,7 @@ class EventsListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         events.loadData {
             self.listTableView.reloadData()
+            self.sortByDate()
         }
     }
     
