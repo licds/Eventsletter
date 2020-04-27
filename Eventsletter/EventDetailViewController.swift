@@ -291,39 +291,6 @@ class EventDetailViewController: UIViewController {
         }
     }
     
-//    func saveCancelAlert(title: String, message: String, segueIdentifier: String){
-//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//        let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
-//            self.event.saveData { (success) in
-//                self.saveButton.title = "Done"
-//                self.cancelButton.title = ""
-//                self.navigationController?.setToolbarHidden(true, animated: true)
-//                self.disableTextEditing()
-//                self.cameraOrLibraryAlert()
-//            }
-//        }
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        alertController.addAction(saveAction)
-//        alertController.addAction(cancelAction)
-//        present(alertController, animated: true, completion: nil)
-//
-//    }
-    
-//    func cameraOrLibraryAlert() {
-//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//        let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
-//            self.accessCamera()
-//        }
-//        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
-//            self.accessLibrary()
-//        }
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        alertController.addAction(cameraAction)
-//        alertController.addAction(photoLibraryAction)
-//        alertController.addAction(cancelAction)
-//        present(alertController, animated: true, completion: nil)
-//    }
-    
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -388,6 +355,13 @@ class EventDetailViewController: UIViewController {
     @IBAction func likeButtonPressed(_ sender: UIButton) {
     }
     @IBAction func deleteButtonPressed(_ sender: UIButton) {
+        event.deleteData(event: event) { success in
+            if success {
+                self.leaveViewController()
+            } else {
+                print("😡 Delete unsuccessful.")
+            }
+        }
     }
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         event.name = nameTextView.text!

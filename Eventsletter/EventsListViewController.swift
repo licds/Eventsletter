@@ -123,7 +123,7 @@ extension EventsListViewController: FUIAuthDelegate {
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if let user = user {
             listTableView.isHidden = false
-            print("*** We signed in with the user \(user.email ?? "unknown e-mail")")
+            print("*** We signed in with the user unknown e-mail")
         }
     }
 }

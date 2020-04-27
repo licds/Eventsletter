@@ -84,4 +84,13 @@ class ClubMeeting {
             }
         }
     }
+    func deleteData(clubMeeting: ClubMeeting, completed: @escaping (Bool) -> ()) {
+        let db = Firestore.firestore()
+        db.collection("clubMeetings").document(clubMeeting.documentID).delete() { error in
+            if let error = error {
+                print("😡 ERROR: deleting club meeting documentID \(self.documentID) \(error.localizedDescription)")
+                completed(false)
+            }
+        }
+    }
 }

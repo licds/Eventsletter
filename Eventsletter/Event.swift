@@ -126,4 +126,14 @@ class Event: NSObject, MKAnnotation {
             }
         }
     }
+    
+    func deleteData(event: Event, completed: @escaping (Bool) -> ()) {
+        let db = Firestore.firestore()
+        db.collection("events").document(event.documentID).delete() { error in
+            if let error = error {
+                print("😡 ERROR: deleting event documentID \(self.documentID) \(error.localizedDescription)")
+                completed(false)
+            }
+        }
+    }
 }

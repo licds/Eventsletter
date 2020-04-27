@@ -147,6 +147,13 @@ class ClubDetailViewController: UIViewController {
         leaveViewController()
     }
     @IBAction func deleteButtonPressed(_ sender: UIButton) {
+        clubMeeting.deleteData(clubMeeting: clubMeeting) { success in
+            if success {
+                self.leaveViewController()
+            } else {
+            print("😡 Delete unsuccessful.")
+            }
+        }
     }
 }
 

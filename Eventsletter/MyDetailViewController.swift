@@ -12,11 +12,14 @@ import Firebase
 import FirebaseUI
 import GoogleSignIn
 
-class MyDetailViewController: UIViewController {
+class MyDetailViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     @IBOutlet weak var myImageView: UIImageView!
-    @IBOutlet weak var usernameTextField: UITextField!
+    
+    @IBOutlet weak var userNameLabel: UILabel!
     
     var authUI: FUIAuth!
+    let storageRef = Storage.storage().reference()
+    let databaseRef = DatabaseReference()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +29,45 @@ class MyDetailViewController: UIViewController {
         authUI = FUIAuth.defaultAuthUI()
         // You need to adopt a FUIAuthDelegate protocol to receive callback
         authUI.delegate = self
+        let uid = authUI.auth?.currentUser?.uid
+        databaseRef.child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                self.userNameLabel.text = dictionary["userName"] as? String
+//                if let profileImageURL = dictionary["imageURL"] as? String
+            }
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    @IBAction func saveChangesButtonPressed(_ sender: UIButton) {
+        
+    }
+    @IBAction func uploadImageButtonPressed(_ sender: UIButton) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        self.present(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var selectedImage: UIImage?
+        if let editedImage = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
+            selectedImage = editedImage
+        } else if let originalImage = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
+            selectedImage = originalImage
+        }
+        if let image = selectedImage {
+            myImageView.image = image
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     func signin() {
@@ -66,7 +104,7 @@ extension MyDetailViewController: FUIAuthDelegate {
     
     func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
         if let user = user {
-            print("*** We signed in with the user \(user.email ?? "unknown e-mail")")
+            print("*** We signed in with the user unknown e-mail")
         }
     }
 }
