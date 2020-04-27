@@ -33,6 +33,7 @@ private let timeFormatter: DateFormatter = {
 class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var eventTypeImageView: UIImageView!
     @IBOutlet weak var addressLabel: UILabel!
     
     var event: Event!
@@ -57,6 +58,19 @@ class EventTableViewCell: UITableViewCell {
             timeLabel.text = "\(date) - \(startTime)"
         } else {
             timeLabel.text = "\(date) - \(startTimeWithDate)"
+        }
+        if event.eventType == "General" {
+            eventTypeImageView.backgroundColor = UIColor(red: 0, green: 0.8314, blue: 1, alpha: 1.0)
+        } else if event.eventType == "Business" {
+            eventTypeImageView.backgroundColor = UIColor.yellow
+        } else if event.eventType == "STEM" {
+            eventTypeImageView.backgroundColor = UIColor(red: 0.498, green: 1, blue: 0, alpha: 1.0)
+        } else if event.eventType == "Humanities" {
+            eventTypeImageView.backgroundColor = UIColor.lightGray
+        } else if event.eventType == "Healthcare" {
+            eventTypeImageView.backgroundColor = UIColor(red: 1, green: 0, blue: 0.8314, alpha: 1.0)
+        } else {
+            eventTypeImageView.backgroundColor = UIColor.white
         }
     }
     

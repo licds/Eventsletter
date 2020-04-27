@@ -15,7 +15,6 @@ import GoogleSignIn
 class EventsListViewController: UIViewController {
     var events: Events!
     var authUI: FUIAuth!
-    
     @IBOutlet weak var listTableView: UITableView!
     
     override func viewDidLoad() {

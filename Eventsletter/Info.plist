@@ -79,5 +79,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Eventsletter will need access to the camera in order to post photo.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Eventsletter will need access to the photo library in order to post photo.</string>
 </dict>
 </plist>

@@ -8,6 +8,7 @@
 
 import UIKit
 import Contacts
+import Firebase
 
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
@@ -23,6 +24,7 @@ class ClubDetailViewController: UIViewController {
     @IBOutlet weak var meetingAddressTextField: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIButton!
     
     var clubMeeting: ClubMeeting!
     override func viewDidLoad() {
@@ -55,6 +57,9 @@ class ClubDetailViewController: UIViewController {
             saveButton.title = ""
             cancelButton.title = ""
             saveButton.isEnabled = false
+            if clubMeeting.postingUserID != Auth.auth().currentUser?.uid {
+                deleteButton.isHidden = true
+            }
         }
     
         
@@ -112,6 +117,7 @@ class ClubDetailViewController: UIViewController {
                 navigationController?.popViewController(animated: true)
             }
         }
+    
     
     @IBAction func meetingAddressEditingChanged(_ sender: UITextField) {
         saveButton.isEnabled = !(meetingAddressTextField.text == "")

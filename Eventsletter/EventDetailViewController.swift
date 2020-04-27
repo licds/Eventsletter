@@ -11,6 +11,7 @@ import UIKit
 import MapKit
 import GooglePlaces
 import Contacts
+import Firebase
 
 private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
@@ -20,14 +21,12 @@ private let dateFormatter: DateFormatter = {
 }()
 
 class EventDetailViewController: UIViewController {
-    @IBOutlet weak var eventImageView: UIImageView!
+    @IBOutlet weak var eventTypeImageView: UIImageView!
     @IBOutlet weak var nameTextView: UITextView!
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var startTimeTextField: UITextField!
     @IBOutlet weak var addressTextField: UITextField!
-    @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var descriptionTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewInScrollViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
@@ -42,6 +41,12 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var constraintContentHeight: NSLayoutConstraint!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var thumbImageView: UIImageView!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
+//    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var eventType: UITextField!
+    
     
     var event: Event!
     let regionDistance: CLLocationDistance = 750 // 750 meters
@@ -52,6 +57,9 @@ class EventDetailViewController: UIViewController {
     var activeView: UITextView?
     var lastOffset: CGPoint!
     var keyboardHeight: CGFloat!
+    var pickerView = UIPickerView()
+    
+    let eventTypeSelection = ["General", "Business", "STEM", "Humanities", "Healthcare", "Others"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +71,8 @@ class EventDetailViewController: UIViewController {
         
         descriptionTextView.delegate = self
         nameTextView.delegate = self
-        
+        pickerView.delegate = self
+        pickerView.dataSource = self
         
         // Observe keyboard change
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -76,6 +85,7 @@ class EventDetailViewController: UIViewController {
             event = Event()
             getLocation()
             nameTextView.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
+            eventType.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
             dateTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
             startTimeTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
             addressTextField.addBorder(width: 0.5, radius: 5.0, color: .lightGray)
@@ -83,22 +93,9 @@ class EventDetailViewController: UIViewController {
             saveButton.isEnabled = false
             showMapButton.setTitle("Enable Map", for: .normal)
             getDirectionButton.isHidden = true
+            eventType.inputView = pickerView
         } else {
-            nameTextView.isEditable = false
-            nameTextView.backgroundColor = UIColor.clear
-            nameTextView.noBorder()
-            dateTextField.isEnabled = false
-            dateTextField.backgroundColor = UIColor.white
-            dateTextField.noBorder()
-            startTimeTextField.isEnabled = false
-            startTimeTextField.backgroundColor = UIColor.white
-            startTimeTextField.noBorder()
-            addressTextField.isEnabled = false
-            addressTextField.backgroundColor = UIColor.white
-            addressTextField.noBorder()
-            descriptionTextView.isEditable = false
-            descriptionTextView.backgroundColor = UIColor.white
-            descriptionTextView.noBorder()
+            disableTextEditing()
             saveButton.title = ""
             cancelButton.title = ""
             saveButton.isEnabled = false
@@ -107,6 +104,12 @@ class EventDetailViewController: UIViewController {
                 showMapButton.isHidden = true
                 flagTopConstraint.constant -= 30
                 descriptionTextViewTopConstraint.constant -= 30
+            }
+            if event.postingUserID == Auth.auth().currentUser?.uid {
+                thumbImageView.isHidden = true
+                likeButton.isHidden = true
+            } else {
+                deleteButton.isHidden = true
             }
         }
 
@@ -122,11 +125,12 @@ class EventDetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         updateTextFont(textView: nameTextView)
         descriptionTextViewHeightConstraint.constant = self.descriptionTextView.contentSize.height
-        viewInScrollViewHeightConstraint.constant = eventImageView.frame.size.height + descriptionTextViewHeightConstraint.constant + 368 + 150
+        viewInScrollViewHeightConstraint.constant = eventTypeImageView.frame.size.height + descriptionTextViewHeightConstraint.constant + 414 + 150
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+        pickerView.isHidden = true
     }
     
     @objc func datePickerValueChanged(sender: UIDatePicker) {
@@ -154,6 +158,14 @@ class EventDetailViewController: UIViewController {
         activeView = nil
     }
     
+//    func textFieldDidBeginEditing(textField: UITextField) {
+//        pickerView.isHidden = false
+//    }
+//
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        pickerView.isHidden = true
+//    }
+    
     func updateDatePicker() {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
@@ -166,6 +178,49 @@ class EventDetailViewController: UIViewController {
         startTimePicker.datePickerMode = UIDatePicker.Mode.dateAndTime
         startTimePicker.addTarget(self, action: #selector(EventDetailViewController.startTimePickerValueChanged(sender:)), for: UIControl.Event.valueChanged)
         startTimeTextField.inputView = startTimePicker
+    }
+    
+    func eventTypeBackgroundColor() {
+        if event.eventType == "General" {
+            eventTypeImageView.backgroundColor = UIColor(red: 0, green: 0.8314, blue: 1, alpha: 1.0)
+            eventType.backgroundColor = UIColor(red: 0, green: 0.8314, blue: 1, alpha: 1.0)
+        } else if event.eventType == "Business" {
+            eventTypeImageView.backgroundColor = UIColor.yellow
+            eventType.backgroundColor = UIColor.yellow
+        } else if event.eventType == "STEM" {
+            eventTypeImageView.backgroundColor = UIColor(red: 0.498, green: 1, blue: 0, alpha: 1.0)
+            eventType.backgroundColor = UIColor(red: 0.498, green: 1, blue: 0, alpha: 1.0)
+        } else if event.eventType == "Humanities" {
+            eventTypeImageView.backgroundColor = UIColor.lightGray
+            eventType.backgroundColor = UIColor.lightGray
+        } else if event.eventType == "Healthcare" {
+            eventTypeImageView.backgroundColor = UIColor(red: 1, green: 0, blue: 0.8314, alpha: 1.0)
+            eventType.backgroundColor = UIColor(red: 1, green: 0, blue: 0.8314, alpha: 1.0)
+        } else {
+            eventTypeImageView.backgroundColor = UIColor.white
+            eventType.backgroundColor = UIColor.white
+        }
+    }
+    
+    func disableTextEditing() {
+        nameTextView.isEditable = false
+        nameTextView.backgroundColor = UIColor.clear
+        nameTextView.noBorder()
+        eventType.isEnabled = false
+        eventType.noBorder()
+        eventTypeBackgroundColor()
+        dateTextField.backgroundColor = UIColor.white
+        dateTextField.isEnabled = false
+        dateTextField.noBorder()
+        startTimeTextField.isEnabled = false
+        startTimeTextField.backgroundColor = UIColor.white
+        startTimeTextField.noBorder()
+        addressTextField.isEnabled = false
+        addressTextField.backgroundColor = UIColor.white
+        addressTextField.noBorder()
+        descriptionTextView.isEditable = false
+        descriptionTextView.backgroundColor = UIColor.white
+        descriptionTextView.noBorder()
     }
     
     func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
@@ -209,6 +264,7 @@ class EventDetailViewController: UIViewController {
     
     func updateUserInterface() {
         nameTextView.text = event.name
+        eventType.text = event.eventType
         updateDatePicker()
         updateStartTimePicker()
 //        updateEndTimePicker()
@@ -235,6 +291,39 @@ class EventDetailViewController: UIViewController {
         }
     }
     
+//    func saveCancelAlert(title: String, message: String, segueIdentifier: String){
+//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
+//            self.event.saveData { (success) in
+//                self.saveButton.title = "Done"
+//                self.cancelButton.title = ""
+//                self.navigationController?.setToolbarHidden(true, animated: true)
+//                self.disableTextEditing()
+//                self.cameraOrLibraryAlert()
+//            }
+//        }
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        alertController.addAction(saveAction)
+//        alertController.addAction(cancelAction)
+//        present(alertController, animated: true, completion: nil)
+//
+//    }
+    
+//    func cameraOrLibraryAlert() {
+//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//        let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+//            self.accessCamera()
+//        }
+//        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
+//            self.accessLibrary()
+//        }
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        alertController.addAction(cameraAction)
+//        alertController.addAction(photoLibraryAction)
+//        alertController.addAction(cancelAction)
+//        present(alertController, animated: true, completion: nil)
+//    }
+    
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -253,7 +342,6 @@ class EventDetailViewController: UIViewController {
         addressTextField.text = event.eventAddress
         updateUserInterface()
     }
-    
     
     @IBAction func lookupLocationButtonPressed(_ sender: UIButton) {
         let autocompleteController = GMSAutocompleteViewController()
@@ -305,6 +393,7 @@ class EventDetailViewController: UIViewController {
         event.name = nameTextView.text!
         event.eventDescription = descriptionTextView.text!
         event.eventAddress = addressTextField.text!
+        event.eventType = eventType.text!
         event.saveData { success in
             if success {
                 self.leaveViewController()
@@ -484,3 +573,21 @@ extension EventDetailViewController {
     }
 }
 
+extension EventDetailViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return eventTypeSelection[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return eventTypeSelection.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        eventType.text = eventTypeSelection[row]
+    }
+    
+}
