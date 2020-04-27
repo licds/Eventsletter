@@ -41,8 +41,8 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var constraintContentHeight: NSLayoutConstraint!
     @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var thumbImageView: UIImageView!
-    @IBOutlet weak var likeButton: UIButton!
+//    @IBOutlet weak var thumbImageView: UIImageView!
+//    @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
 //    @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var eventType: UITextField!
@@ -94,6 +94,8 @@ class EventDetailViewController: UIViewController {
             showMapButton.setTitle("Enable Map", for: .normal)
             getDirectionButton.isHidden = true
             eventType.inputView = pickerView
+//            thumbImageView.isHidden = true
+//            likeButton.isHidden = true
         } else {
             disableTextEditing()
             saveButton.title = ""
@@ -106,8 +108,8 @@ class EventDetailViewController: UIViewController {
                 descriptionTextViewTopConstraint.constant -= 30
             }
             if event.postingUserID == Auth.auth().currentUser?.uid {
-                thumbImageView.isHidden = true
-                likeButton.isHidden = true
+//                thumbImageView.isHidden = true
+//                likeButton.isHidden = true
             } else {
                 deleteButton.isHidden = true
             }
@@ -340,6 +342,7 @@ class EventDetailViewController: UIViewController {
             event.map = false
         }
     }
+    
     @IBAction func getDirectionButtonPressed(_ sender: UIButton) {
         let coordinate = event.coordinate
         let regionDistance: CLLocationDistance = 1000
@@ -352,8 +355,31 @@ class EventDetailViewController: UIViewController {
         mapItem.openInMaps(launchOptions: options)
     }
     
-    @IBAction func likeButtonPressed(_ sender: UIButton) {
-    }
+//    @IBAction func likeButtonPressed(_ sender: UIButton) {
+//        if likeButton.currentTitle == "Like" {
+//            event.numberOfLikes += 1
+//            likeButton.setTitle("Dislike", for: .normal)
+//            thumbImageView.image = UIImage(named: "hand.thumbsdown")
+//            event.saveLikes { success in
+//                if success {
+//                    self.leaveViewController()
+//                } else {
+//                    print("*** ERROR: Couldn't leave this view controller because data wasn't saved.")
+//                }
+//            }
+//        } else if likeButton.currentTitle == "Dislike" {
+//            event.numberOfLikes -= 1
+//            likeButton.setTitle("Like", for: .normal)
+//            thumbImageView.image = UIImage(named: "hand.thumbsup")
+//            event.saveLikes { success in
+//                if success {
+//                    self.leaveViewController()
+//                } else {
+//                    print("*** ERROR: Couldn't leave this view controller because data wasn't saved.")
+//                }
+//            }
+//        }
+//    }
     @IBAction func deleteButtonPressed(_ sender: UIButton) {
         event.deleteData(event: event) { success in
             if success {

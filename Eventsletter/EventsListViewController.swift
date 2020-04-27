@@ -15,6 +15,7 @@ import GoogleSignIn
 class EventsListViewController: UIViewController {
     var events: Events!
     var authUI: FUIAuth!
+    var eventsletterUser: EventsletterUser!
     @IBOutlet weak var listTableView: UITableView!
     
     override func viewDidLoad() {
@@ -53,6 +54,7 @@ class EventsListViewController: UIViewController {
         let providers: [FUIAuthProvider] = [
             FUIGoogleAuth(),
         ]
+        let currentUser = authUI.auth?.currentUser
         if authUI.auth?.currentUser == nil {
             listTableView.isHidden = true
             self.authUI.providers = providers
@@ -61,6 +63,8 @@ class EventsListViewController: UIViewController {
             self.present(authViewController, animated: true, completion: nil)
         } else {
             listTableView.isHidden = false
+            eventsletterUser = EventsletterUser(user: currentUser!)
+            eventsletterUser.saveIfNewUser()
         }
     }
     

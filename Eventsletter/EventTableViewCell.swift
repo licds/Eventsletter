@@ -35,6 +35,7 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var eventTypeImageView: UIImageView!
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var numberOfLikesLabel: UILabel!
     
     var event: Event!
     
@@ -72,6 +73,7 @@ class EventTableViewCell: UITableViewCell {
         } else {
             eventTypeImageView.backgroundColor = UIColor.white
         }
+//        numberOfLikesLabel.text = "\(event.numberOfLikes)"
     }
     
 }

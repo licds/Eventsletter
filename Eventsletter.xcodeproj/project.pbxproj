@@ -13,7 +13,7 @@
 		0430D6E2244E944F00AEC798 /* ProgressScript in Resources */ = {isa = PBXBuildFile; fileRef = 0430D6E1244E944F00AEC798 /* ProgressScript */; };
 		0430D6E4244E9CEA00AEC798 /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0430D6E3244E9CEA00AEC798 /* EventsListViewController.swift */; };
 		0430D6E6244E9D4300AEC798 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0430D6E5244E9D4300AEC798 /* EventTableViewCell.swift */; };
-		043FF5F924566CE400EA51EE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043FF5F824566CE400EA51EE /* User.swift */; };
+		043FF5F924566CE400EA51EE /* EventsletterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043FF5F824566CE400EA51EE /* EventsletterUser.swift */; };
 		0497FE92244B4A7F00C95536 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497FE91244B4A7F00C95536 /* AppDelegate.swift */; };
 		0497FE94244B4A7F00C95536 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497FE93244B4A7F00C95536 /* SceneDelegate.swift */; };
 		0497FE99244B4A7F00C95536 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0497FE97244B4A7F00C95536 /* Main.storyboard */; };
@@ -37,7 +37,7 @@
 		0430D6E1244E944F00AEC798 /* ProgressScript */ = {isa = PBXFileReference; lastKnownFileType = text; path = ProgressScript; sourceTree = "<group>"; };
 		0430D6E3244E9CEA00AEC798 /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		0430D6E5244E9D4300AEC798 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
-		043FF5F824566CE400EA51EE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		043FF5F824566CE400EA51EE /* EventsletterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsletterUser.swift; sourceTree = "<group>"; };
 		0497FE8E244B4A7F00C95536 /* Eventsletter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eventsletter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0497FE91244B4A7F00C95536 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0497FE93244B4A7F00C95536 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 				04E6FEEC245285C3005F96DF /* ClubTableViewCell.swift */,
 				04E6FEEE24528909005F96DF /* ClubDetailViewController.swift */,
 				0498D083244FAF79000AC774 /* MyDetailViewController.swift */,
-				043FF5F824566CE400EA51EE /* User.swift */,
+				043FF5F824566CE400EA51EE /* EventsletterUser.swift */,
 				04E6FEF42452A878005F96DF /* UIView+addBorder.swift */,
 				0497FE97244B4A7F00C95536 /* Main.storyboard */,
 				0497FE9A244B4A8100C95536 /* Assets.xcassets */,
@@ -276,7 +276,7 @@
 				04E6FEED245285C3005F96DF /* ClubTableViewCell.swift in Sources */,
 				0497FE92244B4A7F00C95536 /* AppDelegate.swift in Sources */,
 				0430D6DF244E937500AEC798 /* Events.swift in Sources */,
-				043FF5F924566CE400EA51EE /* User.swift in Sources */,
+				043FF5F924566CE400EA51EE /* EventsletterUser.swift in Sources */,
 				04E6FEF52452A878005F96DF /* UIView+addBorder.swift in Sources */,
 				0430D6E6244E9D4300AEC798 /* EventTableViewCell.swift in Sources */,
 				0430D6DD244E901000AEC798 /* Event.swift in Sources */,
